@@ -89,20 +89,20 @@ func (h *Handler) Index(c echo.Context) error {
 	}
 
 	data["reports"] = reps
-	return c.Render(http.StatusOK, "frontend/templates/index.html", data)
+	return c.Render(http.StatusOK, "index.html", data)
 }
 
 func (h *Handler) SignUpPage(c echo.Context) error {
 	user := context.MustGetUser(c.Request().Context())
 	data := pongoContextFromUser(user)
 
-	return c.Render(http.StatusOK, "frontend/templates/signup.html", data)
+	return c.Render(http.StatusOK, "signup.html", data)
 }
 func (h *Handler) LogInPage(c echo.Context) error {
 	user := context.MustGetUser(c.Request().Context())
 	data := pongoContextFromUser(user)
 
-	return c.Render(http.StatusOK, "frontend/templates/login.html", data)
+	return c.Render(http.StatusOK, "login.html", data)
 }
 
 func (h *Handler) signUp(c echo.Context, req *SignUpRequest) error {
@@ -144,12 +144,12 @@ func (h *Handler) SignUp(c echo.Context) error {
 	err = h.signUp(c, req)
 	if errors.As(err, httpErr) {
 		data["error"] = httpErr.Message
-		return c.Render(http.StatusOK, "frontend/templates/signup.html", data)
+		return c.Render(http.StatusOK, "signup.html", data)
 	}
 	if err != nil {
 		h.Logger.Error(err)
 		data["error"] = "Неивестная ошибка сервера"
-		return c.Render(http.StatusOK, "frontend/templates/signup.html", data)
+		return c.Render(http.StatusOK, "signup.html", data)
 	}
 
 	return c.Redirect(http.StatusFound, "/")
@@ -188,12 +188,12 @@ func (h *Handler) LogIn(c echo.Context) error {
 	err = h.logIn(c, req)
 	if errors.As(errors.Cause(err), httpErr) {
 		data["error"] = httpErr.Message
-		return c.Render(http.StatusOK, "frontend/templates/login.html", data)
+		return c.Render(http.StatusOK, "login.html", data)
 	}
 	if err != nil {
 		h.Logger.Error(err)
 		data["error"] = "Неивестная ошибка сервера"
-		return c.Render(http.StatusOK, "frontend/templates/login.html", data)
+		return c.Render(http.StatusOK, "login.html", data)
 	}
 
 	return c.Redirect(http.StatusFound, "/")
@@ -217,7 +217,7 @@ func (h *Handler) Report(c echo.Context) error {
 		Href: reportName,
 	}
 
-	return c.Render(http.StatusOK, "frontend/templates/report.html", data)
+	return c.Render(http.StatusOK, "report.html", data)
 }
 
 func (h *Handler) AddReport(c echo.Context) error {

@@ -15,20 +15,22 @@ import (
 	"gorm.io/gorm"
 )
 
+var root = flag.String("root", "/daria", "root directory of a project")
+
 func main() {
 	flag.Parse()
 
 	e := echo.New()
 	logger := e.Logger.(*log.Logger)
 
-	db, err := gorm.Open(sqlite.Open("db/gorm.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open(*root+"/db/gorm.db"), &gorm.Config{})
 	must(logger, err)
 
 	e.Use(middleware.Logger())
-	e.Renderer = render.New()
+	e.Renderer = render.New(*root + "/frontend/templates")
 
 	authRepo := auth.New(db, logger)
-	reportRepo := reports.New("./reports")
+	reportRepo := reports.New(*root + "/reports")
 	handler := handlers.New(authRepo, logger, reportRepo)
 
 	e.GET("/", handler.Index)
@@ -41,8 +43,8 @@ func main() {
 	e.POST("/report", handler.AddReport)
 	e.GET("/delete_report", handler.DeleteReport)
 
-	e.Static("/assets", "frontend/assets")
-	e.Static("/source_reports", "reports")
+	e.Static("/assets", *root+"/frontend/assets")
+	e.Static("/source_reports", *root+"/reports")
 	e.Use(middleware2.Auth(authRepo, logger))
 	e.Logger.Fatal(e.Start(":1323"))
 }
