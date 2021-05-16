@@ -1,0 +1,49 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1,  shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title> Гугусик </title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/assets/css/bootstrap.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/assets/css/custom.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="/assets/css/fontawesome.css" rel="stylesheet">
+
+</head>
+<body>
+<header id="header" class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+  <div class="container">
+    <div class=" navbar-brand"><a href="/">Гугусик</a></div>
+    <div id="nav-ask" class="col-2">
+    </div>
+    <div class="col-3">
+      {% if authorized %}
+      <div class="user_name">{{user.Login}} {% if user.IsAdmin %} (администратор) {% endif %}</div>
+      <div class="user_menu">
+        <a href="/signout" class="logout">Выйти</a>
+      </div>
+      {% else %}
+      <div class="user_block">
+        <div class="user_menu">
+          <a href="/login" class="login">Войти</a> /
+          <a href="/signup" class="register">Зарегестрироваться</a>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</header>
+<div class="container">
+      {% block content %}
+      {% endblock %}
+</div>
+<footer></footer>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Отчет: {{report.Name}}</h2>
+<br/>
+<img src="/source_reports/{{report.Href}}">
+<br/>
+<br/>
+<br/>
+<a href="/" class="btn btn-primary">Назад</a>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if authorized %}
+<h2 id="nav-pills">Отчеты</h2>
+</br>
+<ul class="nav nav-pills flex-column">
+    {% for report in reports %}
+    <li class="nav-item">
+        <a class="nav-link report-link no-display-block" href="/report?report={{ report.Href  | urlencode }}">{{report.Name}}</a>
+        {% if user.IsAdmin %}
+        <a class="" href="/delete_report?report={{ report.Href  | urlencode }}">
+            <i class="fas fa-trash"></i>
+        </a>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+<br/>
+<br/>
+
+{% if user.IsAdmin %}
+<form id="reportForm" action="/report" method="post" enctype="multipart/form-data">
+    <fieldset>
+        <legend>Загрузить новый отчет</legend>
+        <div class="form-group">
+            <label for="name">Название отчета</label>
+            <input name="name" type="text" class="form-control" id="name" pattern="[0-9A-Za-zА-Яа-яЁё!=-$_\s]+"
+                   placeholder="Название отчета">
+        </div>
+        <div class="form-group">
+            <label for="file">Пароль</label>
+            <input name="file" type="file" class="form-control" id="file">
+        </div>
+    </fieldset>
+    <br/>
+    <button type="submit" class="btn btn-lg btn-primary">Загрузить</button>
+</form>
+{% endif %}
+{% else %}
+
+Пожалуйста, войдите, чтобы продолжить
+
+{% endif%}
+{% endblock %}
